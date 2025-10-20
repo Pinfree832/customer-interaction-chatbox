@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Products - GripStore</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="main.css">
+    <link rel="stylesheet" href="header.css">
+    <link rel="stylesheet" href="product.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header>
+            <a href="index.html" class="logo">
+                <i class="fas fa-shoe-prints logo-icon"></i>
+                <h1>GripStore</h1>
+            </a>
+            <nav class="nav-links">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="products.html" class="nav-link active">Products</a>
+                <a href="cart.html" class="nav-link">Cart</a>
+                <a href="admin.html" class="nav-link">Admin</a>
+            </nav>
+            <div class="header-controls">
+                <a href="cart.html" class="cart-icon">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="cart-count">0</span>
+                </a>
+            </div>
+        </header>
+
+        <!-- Products and Chat Layout -->
+        <div class="products-chat-layout">
+            <!-- Products Section -->
+            <section class="products-section">
+                <div class="section-header">
+                    <h2>Our Products</h2>
+                    <div class="search-filter">
+                        <div class="search-bar">
+                            <input type="text" id="productSearch" placeholder="Search products...">
+                            <button id="searchBtn"><i class="fas fa-search"></i></button>
+                        </div>
+                        <select id="categoryFilter">
+                            <option value="">All Categories</option>
+                            <option value="running">Running Shoes</option>
+                            <option value="basketball">Basketball</option>
+                            <option value="soccer">Soccer</option>
+                            <option value="clothing">Clothing</option>
+                            <option value="accessories">Accessories</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="products-grid" id="productsGrid">
+                    <!-- Products will be loaded here by JavaScript -->
+                </div>
+            </section>
+
+            <!-- Chat Section -->
+            <aside class="chat-section">
+                <div class="chat-container">
+                    <div class="chat-header">
+                        <h3><i class="fas fa-robot"></i> GripStore Assistant</h3>
+                    </div>
+                    <div class="chat-messages" id="chatMessages">
+                        <div class="message bot-message">
+                            Hello! I'm here to help you with any questions about our products. Feel free to ask about sizes, availability, or recommendations!
+                        </div>
+                    </div>
+                    <div class="quick-replies">
+                        <div class="quick-reply" data-reply="Running shoes">Running Shoes</div>
+                        <div class="quick-reply" data-reply="Basketball equipment">Basketball Gear</div>
+                        <div class="quick-reply" data-reply="Soccer equipment">Soccer Gear</div>
+                        <div class="quick-reply" data-reply="Size guide">Size Guide</div>
+                    </div>
+                    <div class="chat-input-area">
+                        <input type="text" class="chat-input" id="chatInput" placeholder="Ask about our products...">
+                        <div class="chat-actions">
+                            <button class="action-btn file-upload-btn" id="fileUploadBtn">
+                                <i class="fas fa-paperclip"></i>
+                            </button>
+                            <button class="action-btn human-handoff-btn" id="handoffBtn">
+                                <i class="fas fa-headset"></i>
+                            </button>
+                            <button class="action-btn send-btn" id="sendBtn">
+                                <i class="fas fa-paper-plane"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="contact-info">
+                <div class="contact-item">
+                    <i class="fas fa-envelope"></i>
+                    <span>aronpinfree@gmail.com</span>
+                </div>
+                <div class="contact-item">
+                    <i class="fas fa-phone"></i>
+                    <span>0798786191</span>
+                </div>
+                <div class="contact-item">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span>Sports Equipment Center, Nairobi</span>
+                </div>
+            </div>
+            <div class="social-links">
+                <a href="#" class="social-link facebook"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" class="social-link instagram"><i class="fab fa-instagram"></i></a>
+                <a href="#" class="social-link whatsapp"><i class="fab fa-whatsapp"></i></a>
+                <a href="#" class="social-link twitter"><i class="fab fa-twitter"></i></a>
+            </div>
+        </div>
+        <div class="copyright">
+            &copy; 2024 GripStore. All rights reserved.
+        </div>
+    </footer>
+
+    <!-- File Upload Modal -->
+    <div class="modal" id="fileUploadModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Upload Image for Visual Search</h3>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="file-upload-zone" id="dropZone">
+                <i class="fas fa-cloud-upload-alt"></i>
+                <p>Drag & drop an image here or click to browse</p>
+                <p class="small">Supported formats: JPG, PNG, GIF (Max 10MB)</p>
+            </div>
+            <button class="btn btn-primary" style="width: 100%;">Upload and Search</button>
+        </div>
+    </div>
+
+    <script src="scripts/products.js"></script>
+</body>
+</html>

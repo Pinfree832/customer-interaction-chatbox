@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - GripStore</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="main.css">
+    <link rel="stylesheet" href="header.css">
+    <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+    <!-- Login Modal -->
+    <div class="modal active" id="loginModal">
+        <div class="modal-content login-modal">
+            <div class="login-header">
+                <i class="fas fa-lock"></i>
+                <h3>Admin Login</h3>
+                <p>Enter your credentials to access the admin dashboard</p>
+            </div>
+            <form class="login-form" id="adminLoginForm">
+                <div class="form-group">
+                    <label for="adminUsername">Username</label>
+                    <input type="text" id="adminUsername" placeholder="Enter admin username" required>
+                </div>
+                <div class="form-group">
+                    <label for="adminPassword">Password</label>
+                    <input type="password" id="adminPassword" placeholder="Enter admin password" required>
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-sign-in-alt"></i>
+                        Login to Dashboard
+                    </button>
+                </div>
+                <div class="login-note">
+                    <p><strong>Default Credentials:</strong><br>
+                    Username: <code>admin</code><br>
+                    Password: <code>gripstore2024</code></p>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Main Admin Dashboard (Hidden until login) -->
+    <div class="admin-dashboard" id="adminDashboard" style="display: none;">
+        <div class="container">
+            <!-- Header -->
+            <header>
+                <a href="index.html" class="logo">
+                    <i class="fas fa-shoe-prints logo-icon"></i>
+                    <h1>GripStore <span class="admin-badge">Admin</span></h1>
+                </a>
+                <nav class="nav-links">
+                    <a href="index.html" class="nav-link">Home</a>
+                    <a href="products.html" class="nav-link">Products</a>
+                    <a href="cart.html" class="nav-link">Cart</a>
+                    <a href="admin.html" class="nav-link active">Admin</a>
+                </nav>
+                <div class="header-controls">
+                    <span class="admin-welcome">Welcome, <strong id="adminName">Administrator</strong></span>
+                    <button class="btn btn-danger" id="logoutBtn">
+                        <i class="fas fa-sign-out-alt"></i> Logout
+                    </button>
+                </div>
+            </header>
+
+            <!-- Admin Dashboard Content -->
+            <div class="admin-content">
+                <div class="dashboard-header">
+                    <h2><i class="fas fa-tachometer-alt"></i> Admin Dashboard</h2>
+                    <div class="admin-actions">
+                        <button class="btn btn-primary" onclick="showAddProductModal()">
+                            <i class="fas fa-plus"></i> Add New Product
+                        </button>
+                        <button class="btn btn-secondary" onclick="exportProducts()">
+                            <i class="fas fa-download"></i> Export Data
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Stats Overview -->
+                <div class="stats-overview">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-box"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="totalProducts">0</h3>
+                            <p>Total Products</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-shopping-cart"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="totalOrders">0</h3>
+                            <p>Total Orders</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-exclamation-triangle"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="lowStock">0</h3>
+                            <p>Low Stock Items</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-dollar-sign"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="totalRevenue">$0</h3>
+                            <p>Total Revenue</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Admin Tabs -->
+                <div class="admin-tabs">
+                    <button class="tab-btn active" data-tab="products">Manage Products</button>
+                    <button class="tab-btn" data-tab="inventory">Inventory Management</button>
+                    <button class="tab-btn" data-tab="orders">Order Management</button>
+                    <button class="tab-btn" data-tab="upload">Bulk Upload</button>
+                    <button class="tab-btn" data-tab="settings">Admin Settings</button>
+                </div>
+
+                <!-- Products Management -->
+                <div class="tab-content active" id="products-tab">
+                    <div class="tab-header">
+                        <h3>Product Management</h3>
+                        <div class="search-controls">
+                            <div class="search-bar">
+                                <input type="text" id="productSearch" placeholder="Search products...">
+                                <button id="searchBtn"><i class="fas fa-search"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="products-table-container">
+                        <table class="products-table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Product</th>
+                                    <th>Category</th>
+                                    <th>Price</th>
+                                    <th>Stock</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="productsTableBody">
+                                <!-- Products will be loaded here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Inventory Management -->
+                <div class="tab-content" id="inventory-tab">
+                    <div class="tab-header">
+                        <h3>Inventory Management</h3>
+                        <button class="btn btn-primary" onclick="updateAllStock()">
+                            <i class="fas fa-sync"></i> Update All Stock
+                        </button>
+                    </div>
+                    <div class="inventory-grid" id="inventoryGrid">
+                        <!-- Inventory items will be loaded here -->
+                    </div>
+                </div>
+
+                <!-- Order Management -->
+                <div class="tab-content" id="orders-tab">
+                    <div class="tab-header">
+                        <h3>Order Management</h3>
+                        <div class="order-filters">
+                            <select id="orderStatusFilter">
+                                <option value="">All Orders</option>
+                                <option value="pending">Pending</option>
+                                <option value="completed">Completed</option>
+                                <option value="cancelled">Cancelled</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="orders-list" id="ordersList">
+                        <!-- Orders will be loaded here -->
+                    </div>
+                </div>
+
+                <!-- Bulk Upload -->
+                <div class="tab-content" id="upload-tab">
+                    <div class="tab-header">
+                        <h3>Bulk Product Upload</h3>
+                    </div>
+                    <div class="upload-section">
+                        <div class="upload-zone" id="uploadZone">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                            <h4>Upload Product Catalog</h4>
+                            <p>Drag and drop your CSV file here or click to browse</p>
+                            <input type="file" id="csvUpload" accept=".csv" style="display: none;">
+                            <button class="btn btn-primary" onclick="document.getElementById('csvUpload').click()">
+                                <i class="fas fa-file-csv"></i> Select CSV File
+                            </button>
+                        </div>
+                        
+                        <div class="upload-format">
+                            <h5>CSV Format Required:</h5>
+                            <pre>
+name,price,category,stock,description,image
+ProRunner Shoes,129.99,running,15,Professional running shoes,fas fa-shoe-prints
+Elite Basketball,49.99,basketball,25,Official size basketball,fas fa-basketball-ball
+                            </pre>
+                            <div class="upload-actions">
+                                <button class="btn btn-secondary" onclick="downloadTemplate()">
+                                    <i class="fas fa-download"></i> Download Template
+                                </button>
+                                <button class="btn btn-primary" id="processUpload" disabled>
+                                    <i class="fas fa-upload"></i> Process Upload
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Admin Settings -->
+                <div class="tab-content" id="settings-tab">
+                    <div class="tab-header">
+                        <h3>Admin Settings</h3>
+                    </div>
+                    <div class="settings-grid">
+                        <div class="setting-card">
+                            <h4><i class="fas fa-user-cog"></i> Admin Account</h4>
+                            <div class="setting-form">
+                                <div class="form-group">
+                                    <label>Username</label>
+                                    <input type="text" id="adminUsernameSetting" value="admin" readonly>
+                                </div>
+                                <div class="form-group">
+                                    <label>Change Password</label>
+                                    <input type="password" id="newPassword" placeholder="New password">
+                                </div>
+                                <button class="btn btn-primary" onclick="updateAdminPassword()">
+                                    Update Password
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="setting-card">
+                            <h4><i class="fas fa-store"></i> Store Settings</h4>
+                            <div class="setting-form">
+                                <div class="form-group">
+                                    <label>Store Name</label>
+                                    <input type="text" id="storeName" value="GripStore">
+                                </div>
+                                <div class="form-group">
+                                    <label>Contact Email</label>
+                                    <input type="email" id="storeEmail" value="aronpinfree@gmail.com">
+                                </div>
+                                <button class="btn btn-primary" onclick="updateStoreSettings()">
+                                    Save Settings
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="setting-card">
+                            <h4><i class="fas fa-trash"></i> Data Management</h4>
+                            <div class="danger-actions">
+                                <button class="btn btn-danger" onclick="clearAllData()">
+                                    <i class="fas fa-trash"></i> Clear All Data
+                                </button>
+                                <button class="btn btn-warning" onclick="resetToDemo()">
+                                    <i class="fas fa-redo"></i> Reset to Demo
+                                </button>
+                            </div>
+                            <p class="danger-note">Warning: These actions cannot be undone!</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer>
+            <div class="footer-content">
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <i class="fas fa-envelope"></i>
+                        <span>aronpinfree@gmail.com</span>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-phone"></i>
+                        <span>0798786191</span>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>Sports Equipment Center, Nairobi</span>
+                    </div>
+                </div>
+                <div class="social-links">
+                    <a href="#" class="social-link facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="social-link instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="social-link whatsapp"><i class="fab fa-whatsapp"></i></a>
+                    <a href="#" class="social-link twitter"><i class="fab fa-twitter"></i></a>
+                </div>
+            </div>
+            <div class="copyright">
+                &copy; 2024 GripStore. All rights reserved. | Admin Dashboard
+            </div>
+        </footer>
+    </div>
+
+    <!-- Add Product Modal -->
+    <div class="modal" id="addProductModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="productModalTitle">Add New Product</h3>
+                <button class="close-modal">&times;</button>
+            </div>
+            <form class="product-form" id="productForm">
+                <input type="hidden" id="productId">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="productName">Product Name *</label>
+                        <input type="text" id="productName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="productPrice">Price ($) *</label>
+                        <input type="number" id="productPrice" step="0.01" min="0" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="productCategory">Category *</label>
+                        <select id="productCategory" required>
+                            <option value="">Select Category</option>
+                            <option value="running">Running Shoes</option>
+                            <option value="basketball">Basketball</option>
+                            <option value="soccer">Soccer</option>
+                            <option value="clothing">Clothing</option>
+                            <option value="accessories">Accessories</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="productStock">Stock Quantity *</label>
+                        <input type="number" id="productStock" min="0" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="productImage">Product Icon</label>
+                    <select id="productImage">
+                        <option value="fas fa-shoe-prints">Running Shoes</option>
+                        <option value="fas fa-basketball-ball">Basketball</option>
+                        <option value="fas fa-futbol">Soccer Ball</option>
+                        <option value="fas fa-tshirt">T-Shirt</option>
+                        <option value="fas fa-running">Athlete</option>
+                        <option value="fas fa-football-ball">Football</option>
+                        <option value="fas fa-baseball-ball">Baseball</option>
+                        <option value="fas fa-hockey-puck">Hockey</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="productDescription">Description</label>
+                    <textarea id="productDescription" rows="3" placeholder="Product description..."></textarea>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" onclick="closeAddProductModal()">Cancel</button>
+                    <button type="submit" class="btn btn-primary" id="productSubmitBtn">Add Product</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Stock Update Modal -->
+    <div class="modal" id="stockModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Update Stock</h3>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="stock-form">
+                <div class="form-group">
+                    <label for="stockQuantity">New Stock Quantity</label>
+                    <input type="number" id="stockQuantity" min="0">
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" onclick="closeStockModal()">Cancel</button>
+                    <button type="button" class="btn btn-primary" onclick="saveStockUpdate()">Update Stock</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="scripts/admin.js"></script>
+</body>
+</html>

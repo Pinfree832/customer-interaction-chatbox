@@ -1,0 +1,297 @@
+/* Products Page Styles */
+.products-chat-layout {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 30px;
+    margin: 30px 0;
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.section-header h2 {
+    color: var(--primary);
+    font-size: 2rem;
+}
+
+.search-filter {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.search-bar {
+    display: flex;
+    background: var(--light);
+    border-radius: 25px;
+    overflow: hidden;
+    padding: 5px;
+}
+
+.search-bar input {
+    border: none;
+    background: transparent;
+    padding: 10px 15px;
+    width: 250px;
+    outline: none;
+}
+
+.search-bar button {
+    background: var(--primary);
+    border: none;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.search-bar button:hover {
+    background: var(--primary-dark);
+}
+
+#categoryFilter {
+    padding: 10px 15px;
+    border: 1px solid var(--gray);
+    border-radius: 25px;
+    background: white;
+    outline: none;
+    cursor: pointer;
+    min-width: 150px;
+}
+
+/* Products Grid */
+.products-section {
+    background: white;
+    border-radius: 15px;
+    padding: 30px;
+    box-shadow: var(--shadow);
+}
+
+.products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 25px;
+}
+
+.product-item {
+    background: var(--light);
+    border-radius: 12px;
+    padding: 20px;
+    text-align: center;
+    transition: all 0.3s;
+    border: 1px solid var(--gray);
+}
+
+.product-item:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow);
+}
+
+.product-image {
+    font-size: 3rem;
+    color: var(--primary);
+    margin-bottom: 15px;
+    height: 120px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.product-name {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-bottom: 10px;
+    color: var(--dark);
+}
+
+.product-price {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--accent);
+    margin-bottom: 10px;
+}
+
+.product-category {
+    font-size: 0.9rem;
+    color: var(--primary);
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    font-weight: 600;
+}
+
+.product-stock {
+    font-size: 0.9rem;
+    margin-bottom: 15px;
+    font-weight: 500;
+}
+
+.stock-in {
+    color: var(--success);
+}
+
+.stock-out {
+    color: var(--danger);
+}
+
+.product-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.product-btn {
+    flex: 1;
+    padding: 10px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.2s;
+    font-size: 0.9rem;
+}
+
+.details-btn {
+    background: var(--light);
+    color: var(--dark);
+}
+
+.details-btn:hover {
+    background: var(--gray);
+}
+
+.cart-btn {
+    background: var(--primary);
+    color: white;
+}
+
+.cart-btn:hover {
+    background: var(--primary-dark);
+}
+
+.cart-btn:disabled {
+    background: var(--gray);
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+/* Chat Section */
+.chat-section {
+    background: white;
+    border-radius: 15px;
+    box-shadow: var(--shadow);
+    height: fit-content;
+    position: sticky;
+    top: 20px;
+}
+
+.chat-container {
+    display: flex;
+    flex-direction: column;
+    height: 600px;
+}
+
+.chat-header {
+    padding: 20px;
+    border-bottom: 1px solid var(--gray);
+    background: var(--primary);
+    color: white;
+    border-radius: 15px 15px 0 0;
+}
+
+.chat-header h3 {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1.1rem;
+}
+
+.chat-messages {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.message {
+    max-width: 85%;
+    padding: 12px 16px;
+    border-radius: 18px;
+    line-height: 1.4;
+    font-size: 0.9rem;
+}
+
+.bot-message {
+    background: var(--light);
+    border-bottom-left-radius: 5px;
+    align-self: flex-start;
+}
+
+.user-message {
+    background: var(--primary);
+    color: white;
+    border-bottom-right-radius: 5px;
+    align-self: flex-end;
+}
+
+.quick-replies {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 0 20px 15px;
+}
+
+.quick-reply {
+    background: var(--light);
+    border: 1px solid var(--gray);
+    padding: 6px 12px;
+    border-radius: 15px;
+    cursor: pointer;
+    font-size: 0.8rem;
+    transition: all 0.2s;
+}
+
+.quick-reply:hover {
+    background: var(--gray);
+}
+
+.chat-input-area {
+    padding: 15px 20px;
+    border-top: 1px solid var(--gray);
+    display: flex;
+    gap: 10px;
+}
+
+.chat-input {
+    flex: 1;
+    padding: 12px 15px;
+    border: 1px solid var(--gray);
+    border-radius: 20px;
+    outline: none;
+    font-size: 0.9rem;
+}
+
+.chat-input:focus {
+    border-color: var(--primary);
+}
+
+.chat-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.action-btn {
+    background: var(--light);
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
