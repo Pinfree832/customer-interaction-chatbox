@@ -13,41 +13,95 @@ class AdminDashboard {
     init() {
         this.checkAuthentication();
         this.initializeEventListeners();
+        this.showLoadingState(false);
     }
 
-    checkAuthentication() {
-        const isAuthenticated = localStorage.getItem('gripstore_admin_auth');
-        if (isAuthenticated) {
-            this.showDashboard();
+    async checkAuthentication() {
+        const token = localStorage.getItem('gripstore_token');
+        if (token) {
+            window.gripstoreAPI.setToken(token);
+            await this.handleTokenValidation();
         } else {
             this.showLogin();
         }
     }
 
+    async handleTokenValidation() {
+        try {
+            const response = await window.gripstoreAPI.request('/auth/profile');
+            if (response?.success) {
+                const name = response.data?.user?.first_name || 'Administrator';
+                const adminName = document.getElementById('adminName');
+                if (adminName) {
+                    adminName.textContent = name;
+                }
+                this.showDashboard();
+                return;
+            }
+        } catch (error) {
+            console.warn('Token validation failed:', error.message);
+        }
+
+        this.handleLogout({ skipMessage: true });
+    }
+
     showLogin() {
-        document.getElementById('loginModal').classList.add('active');
-        document.getElementById('adminDashboard').style.display = 'none';
+        const loginModal = document.getElementById('loginModal');
+        const dashboard = document.getElementById('adminDashboard');
+        if (loginModal) loginModal.classList.add('active');
+        if (dashboard) dashboard.style.display = 'none';
         this.isLoggedIn = false;
     }
 
     showDashboard() {
-        document.getElementById('loginModal').classList.remove('active');
-        document.getElementById('adminDashboard').style.display = 'block';
+        const loginModal = document.getElementById('loginModal');
+        const dashboard = document.getElementById('adminDashboard');
+        if (loginModal) loginModal.classList.remove('active');
+        if (dashboard) dashboard.style.display = 'block';
         this.isLoggedIn = true;
         this.initializeDashboard();
     }
 
-    initializeEventListeners() {
-        // Login form
-        document.getElementById('adminLoginForm').addEventListener('submit', (event) => {
-            event.preventDefault();
-            this.handleLogin();
-        });
+    showLoadingState(isLoading) {
+        const submitButton = document.querySelector('#adminLoginForm button[type="submit"]');
+        if (!submitButton) return;
 
-        // Logout button
-        document.getElementById('logoutBtn').addEventListener('click', () => {
-            this.handleLogout();
-        });
+        if (isLoading) {
+            submitButton.disabled = true;
+            submitButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Signing In...';
+        } else {
+            submitButton.disabled = false;
+            submitButton.innerHTML = `
+                <i class="fas fa-sign-in-alt"></i>
+                Login to Dashboard
+            `;
+        }
+    }
+
+    initializeEventListeners() {
+        const loginForm = document.getElementById('adminLoginForm');
+        if (loginForm) {
+            loginForm.addEventListener('submit', async (event) => {
+                event.preventDefault();
+                await this.handleLogin();
+            });
+        }
+
+        const logoutBtn = document.getElementById('logoutBtn');
+        if (logoutBtn) {
+            logoutBtn.addEventListener('click', () => {
+                this.handleLogout();
+            });
+        }
+
+        const passwordInput = document.getElementById('adminPassword');
+        if (passwordInput) {
+            passwordInput.addEventListener('keyup', (event) => {
+                if (event.key === 'Enter') {
+                    loginForm?.dispatchEvent(new Event('submit', { cancelable: true }));
+                }
+            });
+        }
 
         // Close modals
         document.querySelectorAll('.close-modal').forEach((button) => {

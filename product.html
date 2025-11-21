@@ -140,5 +140,41 @@
     </div>
 
     <script src="scripts/products.js"></script>
+    <script src="scripts/api.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('🚀 GripStore Frontend Loaded');
+
+    // ✅ Safely check if gripstoreAPI exists before using it
+    if (typeof gripstoreAPI !== 'undefined' && gripstoreAPI.request) {
+        gripstoreAPI.request('/health')
+            .then(data => {
+                console.log('✅ Backend connection successful:', data);
+            })
+            .catch(error => {
+                console.error('❌ Backend connection failed:', error);
+                alert('Cannot connect to server. Please make sure backend is running on port 3000.');
+            });
+    } else {
+        console.error('⚠️ gripstoreAPI is not defined. Check scripts/api.js.');
+    }
+});
+</script>
+<!-- Include the API script first -->
+<script src="scripts/api.js"></script>
+
+<!-- Include the enhanced products manager -->
+<script src="scripts/products.js"></script>
+
+<script>
+// Initialize when page loads
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('🛍️ Products Page Loaded');
+    productsManager.initialize();
+});
+</script>
+
+
+
 </body>
 </html>

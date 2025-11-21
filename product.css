@@ -295,3 +295,131 @@
     height: 40px;
     border-radius: 50%;
 }
+/* Enhanced Products Styles */
+.loading-indicator {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.9);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+.loading-spinner {
+    background: white;
+    padding: 30px 40px;
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+    text-align: center;
+    font-size: 1.1rem;
+    font-weight: 500;
+}
+
+.loading-spinner i {
+    margin-right: 10px;
+    font-size: 1.5rem;
+    color: var(--primary);
+}
+
+/* Notifications */
+.notification {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 15px 20px;
+    border-radius: 8px;
+    color: white;
+    font-weight: 500;
+    z-index: 1000;
+    animation: slideInRight 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.success-notification {
+    background: var(--success);
+}
+
+.error-notification {
+    background: var(--danger);
+}
+
+/* Product Animations */
+.product-item {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.3s ease;
+}
+
+.product-item.animate-in {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* No Products State */
+.no-products {
+    text-align: center;
+    padding: 60px 20px;
+    grid-column: 1 / -1;
+}
+
+.no-products i {
+    font-size: 4rem;
+    color: var(--gray);
+    margin-bottom: 20px;
+    opacity: 0.5;
+}
+
+.no-products h3 {
+    color: var(--dark);
+    margin-bottom: 10px;
+}
+
+.no-products p {
+    color: var(--dark);
+    opacity: 0.7;
+    margin-bottom: 20px;
+}
+
+/* Product Modal */
+.product-modal-content {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 30px;
+    align-items: start;
+}
+
+.product-modal-image {
+    text-align: center;
+    font-size: 6rem;
+    color: var(--primary);
+}
+
+.product-modal-info h4 {
+    color: var(--primary);
+    margin-bottom: 10px;
+}
+
+.product-specifications pre {
+    background: var(--light);
+    padding: 15px;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    overflow-x: auto;
+}
+
+@keyframes slideInRight {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}

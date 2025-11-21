@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "chatbox": "^0.0.1",
+    "service": "^0.1.4"
+  }
+}

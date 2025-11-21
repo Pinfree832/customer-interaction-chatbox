@@ -393,6 +393,25 @@ Elite Basketball,49.99,basketball,25,Official size basketball,fas fa-basketball-
         </div>
     </div>
 
-    <script src="scripts/admin.js"></script>
+    <script src="route/middleware/frontend intergration.js"></script>
+    <script src="admin.js"></script>
+    <!-- Add this before closing </body> tag -->
+<script src="scripts/api.js"></script>
+<script>
+    // Test connection when page loads
+    document.addEventListener('DOMContentLoaded', function() {
+        console.log('🚀 GripStore Frontend Loaded');
+        
+        // Test backend connection
+        gripstoreAPI.request('/health')
+            .then(data => {
+                console.log('✅ Backend connection successful:', data);
+            })
+            .catch(error => {
+                console.error('❌ Backend connection failed:', error);
+                alert('Cannot connect to server. Please make sure backend is running on port 3000.');
+            });
+    });
+</script>
 </body>
 </html>
